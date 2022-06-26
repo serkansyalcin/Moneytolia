@@ -7,7 +7,7 @@ export default function Campaign({data, onEdit, onDelete}) {
 
     React.useEffect(() => {
         setVote(data.score);
-    }, [data.score])
+    }, [data.score]);
 
     const handleVote = async(mode) => {
         const newVote = mode === 'high' ? vote + 1 : vote === 0 ? 0 : vote - 1;

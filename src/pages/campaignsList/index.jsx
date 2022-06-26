@@ -13,14 +13,9 @@ export default function CampaignsList() {
         description: ""
     });
     const [campaigns,setCampaigns] = React.useState({});
-
-    console.log(campaigns);
+    const [filterMode,setFilterMode] = React.useState('low')
 
     React.useEffect(() => {
-        const init = async () =>  {
-            const data = await campaignsHandler.getCampaigns();
-            setCampaigns(data);
-        }
         init();
     }, []);
 
@@ -38,18 +33,42 @@ export default function CampaignsList() {
         }))
     }
     const handleSearch = ({target}) => {
+        if (!/^$/.test(target.value)) {
+            let _data = Object.values(campaigns);
+            _data = _data.filter(d => d.name.toLowerCase().includes(target.value.toLowerCase()));
+            console.log(_data);
+            let newData = {};
+            _data.forEach(d => newData[d.id] = d);
+            newData = filterCampaigns(newData, filterMode);
+            setCampaigns(newData);
+        } else {
+            init();
+        }
 
     }
     const handleFilter = async({target}) => {
+        await setFilterMode(target.value);
         const data = filterCampaigns(campaigns, target.value);
         setCampaigns(data);
     }
+    const handleDelete = () => {
+
+    }
+    const handleEdit = () => {
+
+    }
+
     const filterCampaigns = (data, mode) => {
         let _data = Object.values(data);
         _data.sort((a,b) => mode === 'high' ? b.score - a.score : a.score - b.score);
         const newData = {};
         _data.forEach(d => newData[d.id] = d);
         return newData;
+    }
+    const init = async () =>  {
+        let data = await campaignsHandler.getCampaigns();
+        data = filterCampaigns(data, filterMode);
+        setCampaigns(data);
     }
 
 
@@ -67,14 +86,14 @@ export default function CampaignsList() {
                     </div>
                     <div className="filter-select-wrapper">
                         <select onChange={handleFilter}>
-                            <option value="high">Highest score</option>
                             <option value="low">Lowest score</option>
+                            <option value="high">Highest score</option>
                         </select>
                     </div>
                 </div>
                 <div className="campaigns-listing">
                     {Object.values(campaigns).length > 0 ?
-                        Object.values(campaigns).map((c,i) => <Campaign key={i} data={c} />) :
+                        Object.values(campaigns).map((c,i) => <Campaign key={i} data={c} onDelete={() => handleDelete(c.id)} onEdit={() => handleEdit()} />) :
                         <div className="empty-campaigns">
                             No campaigns found
                         </div>
