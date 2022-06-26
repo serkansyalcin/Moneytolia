@@ -8,5 +8,10 @@
   align-items: center;
   .login-form-container {
     width: 400px;
+    .form-error {
+      color: #f44336;
+      margin: 20px 0;
+      text-align: center;
+    }
   }
 }

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Login from "../pages/login";
 import CampaignsList from "../pages/campaignsList";
 import CampaignsCreate from '../pages/campaignCreate';
-import { bootstrapper } from "../services/storage";
+import { isAuthenticated } from "../services/storage/credsHandler";
 
 export default function Navigation() {
     let navigate = useNavigate();
@@ -16,15 +16,12 @@ export default function Navigation() {
 
     React.useEffect(() => {
         isLoggedIn ? navigate('/campaigns-list', { replace: true }) : navigate('/login', { replace: true });
-
     }, [isLoggedIn]);
 
     const init = async() => {
-        await bootstrapper();
+        const authenticationStatus = await isAuthenticated();
         setIsInit(true);
-        if (!isLoggedIn) {
-
-        }
+        setIsLoggedIn(authenticationStatus);
     }
 
     return (

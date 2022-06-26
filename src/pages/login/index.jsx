@@ -22,12 +22,7 @@ export default function Login({onSuccess}) {
         }
         e.preventDefault();
         const isCredsValid = await credsHandler(formData);
-        if (isCredsValid) {
-            onSuccess();
-        } else {
-
-        }
-
+        isCredsValid ? onSuccess() : setFormError(true);
     }
 
     return (
@@ -54,6 +49,7 @@ export default function Login({onSuccess}) {
                             onChange={handleChange}
                         />
                     </div>
+                    {isFormError && <div className="form-error">Login failed - invalid username or password</div>}
                     <button type="submit" onClick={handleSubmit}>Submit</button>
                 </form>
             </div>

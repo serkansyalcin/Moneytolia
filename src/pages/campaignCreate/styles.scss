@@ -1,5 +1,10 @@
-.campaigns-create-page-wrapper {
+.campaigns-create-content {
   display: flex;
   height: 100%;
   width: 100%;
+  padding: 60px;
+  justify-content: center;
+  .campaigns-create-form {
+    width: 400px;
+  }
 }

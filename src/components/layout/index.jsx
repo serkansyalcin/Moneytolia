@@ -9,6 +9,9 @@ export default function Layout({children}) {
             <Sidebar />
             <div className="content-wrapper">
                 <Header />
+                <div className="content-container">
+                    {children}
+                </div>
             </div>
         </div>
     )

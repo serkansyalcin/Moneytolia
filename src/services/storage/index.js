@@ -1,4 +1,4 @@
-import bootstrapper from "./bootstrapper";
 import credsHandler from "./credsHandler";
+import campaignsHandler from "./campaignsHandler";
 
-export { bootstrapper, credsHandler };
+export { credsHandler, campaignsHandler };
