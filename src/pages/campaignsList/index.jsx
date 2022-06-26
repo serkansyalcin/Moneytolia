@@ -51,8 +51,12 @@ export default function CampaignsList() {
         const data = filterCampaigns(campaigns, target.value);
         setCampaigns(data);
     }
-    const handleDelete = () => {
-
+    const handleDelete = async(id) => {
+        if (confirm('Are you sure ?')) {
+            let newCampaigns = await campaignsHandler.deleteCampaign(id);
+            newCampaigns = filterCampaigns(newCampaigns, filterMode);
+            setCampaigns(newCampaigns);
+        }
     }
     const handleEdit = () => {
 

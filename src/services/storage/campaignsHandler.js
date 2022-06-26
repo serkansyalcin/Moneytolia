@@ -31,6 +31,14 @@ async function editCampaign(id, data) {
     return true;
 }
 
+async function deleteCampaign(id) {
+    let campaigns = localStorage.getItem('moneytolia-sample-campaigns');
+    campaigns ? campaigns = JSON.parse(campaigns) : campaigns = {};
+    let {[id]: _, ...newCampaigns} = campaigns;
+    await localStorage.setItem('moneytolia-sample-campaigns', JSON.stringify(newCampaigns));
+    return newCampaigns;
+}
+
 async function getCampaigns() {
     let campaigns = localStorage.getItem('moneytolia-sample-campaigns');
     campaigns ? campaigns = JSON.parse(campaigns) : campaigns = {};
@@ -42,6 +50,7 @@ export default {
     addCampaign,
     editCampaign,
     getCampaigns,
+    deleteCampaign
 }
 
 
