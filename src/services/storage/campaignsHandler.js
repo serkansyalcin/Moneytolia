@@ -16,8 +16,19 @@ async function addCampaign(data) {
     return true;
 }
 
-async function editCampaign(data) {
-
+async function editCampaign(id, data) {
+    let campaigns = localStorage.getItem('moneytolia-sample-campaigns');
+    campaigns ? campaigns = JSON.parse(campaigns) : campaigns = {};
+    const campaign = {
+        ...campaigns[id],
+        ...data,
+    };
+    campaigns = {
+        ...campaigns,
+        [id]: campaign,
+    }
+    await localStorage.setItem('moneytolia-sample-campaigns', JSON.stringify(campaigns));
+    return true;
 }
 
 async function getCampaigns() {
