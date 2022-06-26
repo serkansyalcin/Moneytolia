@@ -13,6 +13,7 @@ export default function CampaignsList() {
         description: ""
     });
     const [campaigns,setCampaigns] = React.useState({});
+
     console.log(campaigns);
 
     React.useEffect(() => {
@@ -30,16 +31,25 @@ export default function CampaignsList() {
         e.preventDefault();
         setIsFormError(false);
     }
-
     const handleChange = ({target}) => {
         setFormData(formData => ({
             ...formData,
             [target.name]: target.value
         }))
     }
-
     const handleSearch = ({target}) => {
 
+    }
+    const handleFilter = async({target}) => {
+        const data = filterCampaigns(campaigns, target.value);
+        setCampaigns(data);
+    }
+    const filterCampaigns = (data, mode) => {
+        let _data = Object.values(data);
+        _data.sort((a,b) => mode === 'high' ? b.score - a.score : a.score - b.score);
+        const newData = {};
+        _data.forEach(d => newData[d.id] = d);
+        return newData;
     }
 
 
@@ -56,7 +66,7 @@ export default function CampaignsList() {
                         />
                     </div>
                     <div className="filter-select-wrapper">
-                        <select>
+                        <select onChange={handleFilter}>
                             <option value="high">Highest score</option>
                             <option value="low">Lowest score</option>
                         </select>

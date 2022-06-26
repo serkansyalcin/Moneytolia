@@ -5,19 +5,23 @@ import './styles.scss';
 export default function Campaign({data, onEdit, onDelete}) {
     const [vote,setVote] = React.useState(data.score);
 
+    React.useEffect(() => {
+        setVote(data.score);
+    }, [data.score])
+
     const handleVote = async(mode) => {
         const newVote = mode === 'high' ? vote + 1 : vote === 0 ? 0 : vote - 1;
         const campaign = await campaignsHandler.editCampaign(data.id, {
             score: newVote
         });
-        console.log(vote);
         await setVote(newVote)
     }
 
     return (
         <div className='campaign-wrapper'>
             <div className="campaign-counter">
-                {vote}<br />
+                {vote}
+                <br />
                 Point
             </div>
             <div className="campaign-content">
