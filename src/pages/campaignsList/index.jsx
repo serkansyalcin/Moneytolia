@@ -9,9 +9,11 @@ export default function CampaignsList() {
     const form = React.useRef();
     const [isFormError, setIsFormError] = React.useState(false);
     const [formData,setFormData] = React.useState({
+        id: "",
         name: "",
         description: ""
     });
+    const [showForm,setShowForm] = React.useState(false);
     const [campaigns,setCampaigns] = React.useState({});
     const [filterMode,setFilterMode] = React.useState('low')
 
@@ -19,12 +21,15 @@ export default function CampaignsList() {
         init();
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         if (!form.current.checkValidity()) {
             return false;
         }
         e.preventDefault();
         setIsFormError(false);
+        await campaignsHandler.editCampaign(formData.id, formData);
+        setShowForm(false);
+        init();
     }
     const handleChange = ({target}) => {
         setFormData(formData => ({
@@ -58,8 +63,21 @@ export default function CampaignsList() {
             setCampaigns(newCampaigns);
         }
     }
-    const handleEdit = () => {
-
+    const handleEdit = async (id) => {
+        await setFormData({
+            id: id,
+            name: campaigns[id].name,
+            description: campaigns[id].description
+        });
+        setShowForm(true)
+    }
+    const closeModal = () => {
+        setShowForm(false);
+        setFormData({
+            id: "",
+            name: "",
+            description: ""
+        })
     }
 
     const filterCampaigns = (data, mode) => {
@@ -97,13 +115,43 @@ export default function CampaignsList() {
                 </div>
                 <div className="campaigns-listing">
                     {Object.values(campaigns).length > 0 ?
-                        Object.values(campaigns).map((c,i) => <Campaign key={i} data={c} onDelete={() => handleDelete(c.id)} onEdit={() => handleEdit()} />) :
+                        Object.values(campaigns).map((c,i) => <Campaign key={i} data={c} onDelete={() => handleDelete(c.id)} onEdit={() => handleEdit(c.id)} />) :
                         <div className="empty-campaigns">
                             No campaigns found
                         </div>
                     }
                 </div>
             </div>
+            {showForm &&
+                <div className="modal-container">
+                    <div className="modal-content">
+                        <a className="close" onClick={() => closeModal()}>&times;</a>
+                        <form action="#" ref={form} onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <input
+                                    value={formData.name}
+                                    name="name"
+                                    type="text"
+                                    placeholder="Campaign Name"
+                                    required
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <textarea
+                                    value={formData.description}
+                                    name="description"
+                                    placeholder="Campaign Description"
+                                    required
+                                    rows={8}
+                                    onChange={handleChange}
+                                ></textarea>
+                            </div>
+                            <button type='submit'>Update</button>
+                        </form>
+                    </div>
+                </div>
+            }
         </Layout>
     )
 }
