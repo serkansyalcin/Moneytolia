@@ -1,3 +1,46 @@
-.campaigns-list-page-wrapper {
-
+.campaigns-list-content {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: 50px 80px;
+  flex-direction: column;
+  .campaigns-list-content-subheader {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 40px;
+    .search-input-wrapper {
+      position: relative;
+      flex-grow: 1;
+      img {
+        position: absolute;
+        left: 10px;
+        width: 30px;
+        top: 6px;
+      }
+      input {
+        border-radius: 50px;
+        padding: 10px 15px 10px 45px;
+      }
+    }
+    .filter-select-wrapper {
+      margin-left: 50px;
+      select {
+        padding: 10px;
+        font-size: 16px;
+        border: solid 1px #282c34;
+        outline: none !important;
+        width: 100%;
+      }
+    }
+  }
+  .campaigns-listing {
+    margin: -40px 0;
+    .empty-campaigns {
+      display: flex;
+      font-size: 20px;
+      border: solid 1px #212121;
+      padding: 50px;
+    }
+  }
 }

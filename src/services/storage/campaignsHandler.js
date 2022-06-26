@@ -16,13 +16,21 @@ async function addCampaign(data) {
     return true;
 }
 
-async function editCampaign() {
+async function editCampaign(data) {
 
 }
+
+async function getCampaigns() {
+    let campaigns = localStorage.getItem('moneytolia-sample-campaigns');
+    campaigns ? campaigns = JSON.parse(campaigns) : campaigns = {};
+    return campaigns;
+}
+
 
 export default {
     addCampaign,
     editCampaign,
+    getCampaigns,
 }
 
 

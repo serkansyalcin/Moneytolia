@@ -11,18 +11,17 @@ export default function Navigation() {
     const [isLoggedIn,setIsLoggedIn] = React.useState(false);
 
     React.useEffect(() => {
+        const init = async () => {
+            const authenticationStatus = await isAuthenticated();
+            setIsInit(true);
+            setIsLoggedIn(authenticationStatus);
+        }
         init();
     }, []);
 
     React.useEffect(() => {
         isLoggedIn ? navigate('/campaigns-list', { replace: true }) : navigate('/login', { replace: true });
     }, [isLoggedIn]);
-
-    const init = async() => {
-        const authenticationStatus = await isAuthenticated();
-        setIsInit(true);
-        setIsLoggedIn(authenticationStatus);
-    }
 
     return (
         <Routes>
