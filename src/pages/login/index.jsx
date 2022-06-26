@@ -22,7 +22,13 @@ export default function Login({onSuccess}) {
         }
         e.preventDefault();
         const isCredsValid = await credsHandler(formData);
-        isCredsValid ? onSuccess() : setFormError(true);
+        if (isCredsValid) {
+            onSuccess();
+            setFormData({
+                username: "",
+                password: "",
+            })
+        }  else setFormError(true);
     }
 
     return (
